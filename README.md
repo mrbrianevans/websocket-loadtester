@@ -20,9 +20,9 @@ More command line options can be seen by running:
 docker run --rm ws-loadtester --help
 ```
 ```
-Usage of /loadtester:
-  -duration string
-        Specify duration of test. Each connection will stay connected for this duration. (default "10m")
+Usage of ./loadtester:
+  -duration duration
+        Specify duration of test. Each connection will stay connected for this duration. (default 10m0s)
   -print
         Use --print to print a dot for each message received on each connection. False to only print for one channel.
   -qty int

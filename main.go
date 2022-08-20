@@ -44,21 +44,17 @@ func connectAndListen(url string, timeout time.Duration, messages chan<- Message
 }
 
 func main() {
-	var duration string
+	var duration time.Duration
 	var url string
 	var qty int
 	var printEvery bool
 	flag.BoolVar(&printEvery, "print", false, "Use --print to print a dot for each message received on each connection. False to only print for one channel.")
 	flag.IntVar(&qty, "qty", 100, "Specify quantity of concurrent connections.")
-	flag.StringVar(&duration, "duration", "10m", "Specify duration of test. Each connection will stay connected for this duration.")
+	flag.DurationVar(&duration, "duration", 10*time.Minute, "Specify duration of test. Each connection will stay connected for this duration.")
 	flag.StringVar(&url, "url", "wss://companies.stream/events", "Specify the url of the WebSocket. Should begin with ws:// or wss://.")
 	flag.Parse()
-	var listenFor, err = time.ParseDuration(duration)
-	if err != nil {
-		log.Fatal("Cannot parse duration:", duration, err)
-	}
 
-	log.Printf("Connecting %d clients to %s for %s", qty, url, listenFor.String())
+	log.Printf("Connecting %d clients to %s for %s", qty, url, duration.String())
 
 	var wg sync.WaitGroup
 	wg.Add(qty)
@@ -70,7 +66,7 @@ func main() {
 			printChar = "."
 		}
 		connected := make(chan bool)
-		go connectAndListen(url, listenFor, messageChannels[i], &wg, printChar, connected)
+		go connectAndListen(url, duration, messageChannels[i], &wg, printChar, connected)
 		success := <-connected
 		if success {
 			connectedClients++
