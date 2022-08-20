@@ -15,9 +15,9 @@ Run a container with:
 ```
 docker run --rm ws-loadtester
 ```
-The executable in the container is named `/loadtester`, so more command line options can be seen by running:
+More command line options can be seen by running:
 ```
-docker run --rm ws-loadtester /loadtester --help
+docker run --rm ws-loadtester --help
 ```
 ```
 Usage of /loadtester:

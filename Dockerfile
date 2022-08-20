@@ -18,5 +18,5 @@ WORKDIR /
 
 COPY --from=builder /loadtester /loadtester
 
-CMD ["./loadtester"]
+ENTRYPOINT ["./loadtester"]
 
